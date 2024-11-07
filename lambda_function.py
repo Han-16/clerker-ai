@@ -23,6 +23,25 @@ def download_from_s3(s3_path, local_path):
 def upload_to_s3(local_path, s3_path):
     s3.upload_file(local_path, bucket_name, s3_path)
 
+def download_folder_from_s3(s3_folder, local_dir):
+    paginator = s3.get_paginator('list_objects_v2')
+    for page in paginator.paginate(Bucket=bucket_name, Prefix=s3_folder):
+        if 'Contents' in page:
+            for obj in page['Contents']:
+                key = obj['Key']
+                if key.endswith('/'):
+                    # 디렉토리는 스킵
+                    continue
+                # 로컬 파일 경로 생성
+                relative_path = key[len(s3_folder):].lstrip('/')
+                local_file_path = os.path.join(local_dir, relative_path)
+                # 필요한 디렉토리 생성
+                local_file_dir = os.path.dirname(local_file_path)
+                os.makedirs(local_file_dir, exist_ok=True)
+                # 파일 다운로드
+                s3.download_file(bucket_name, key, local_file_path)
+
+
 def lambda_handler(event, context):
     os.makedirs('/tmp/STT', exist_ok=True)
     os.makedirs('/tmp/STT/stt_audio', exist_ok=True)
@@ -64,21 +83,40 @@ def lambda_handler(event, context):
     download_from_s3(keyword_boosting_agenda, local_keyword_boosting_agenda)
 
     # 3. 모델 파일 다운로드
+    # local_model_dir = '/tmp/models'
+    # os.makedirs(local_model_dir, exist_ok=True)
+    # # 모델 파일 목록을 정의합니다.
+    # model_folders = [
+    #     'models--jhgan--ko-sroberta-sts/snapshots/3efa8e54a06798b00bd1abb9c22b2dd530e22b24/',
+    #     'models--MLP-KTLim--llama-3-Korean-Bllossom-8B-gguf-Q4_K_M/snapshots/4e602ad115392e7298674e092d6f8b45138f1db7/',
+    #     'models--MLP-KTLim--llama-3-Korean-Bllossom-8B-gguf-Q4_K_M/llama-3-Korean-Bllossom-8B-Q4_K_M.gguf',
+    # ]
+    # model_files = []
+    # for model_file in model_files:
+    #     print(f"Downloading model file: {model_file}")
+    #     s3_model_path = f'models/{model_file}'
+    #     local_model_path = os.path.join(local_model_dir, os.path.basename(model_file))
+    #     print(f"local_model_path: {local_model_path}")
+    #     download_from_s3(s3_model_path, local_model_path)
+    
+    #  3. 모델 폴더 다운로드
     local_model_dir = '/tmp/models'
     os.makedirs(local_model_dir, exist_ok=True)
-    # 모델 파일 목록을 정의합니다.
-    model_files = [
+    # 모델 폴더 목록을 정의합니다.
+    model_folders = [
         'models--jhgan--ko-sroberta-sts/snapshots/3efa8e54a06798b00bd1abb9c22b2dd530e22b24/',
         'models--MLP-KTLim--llama-3-Korean-Bllossom-8B-gguf-Q4_K_M/snapshots/4e602ad115392e7298674e092d6f8b45138f1db7/',
-        'models--MLP-KTLim--llama-3-Korean-Bllossom-8B-gguf-Q4_K_M/llama-3-Korean-Bllossom-8B-Q4_K_M.gguf',
     ]
-    for model_file in model_files:
-        print(f"Downloading model file: {model_file}")
-        s3_model_path = f'models/{model_file}'
-        local_model_path = os.path.join(local_model_dir, os.path.basename(model_file))
-        print(f"local_model_path: {local_model_path}")
-        download_from_s3(s3_model_path, local_model_path)
-    
+    for model_folder in model_folders:
+        s3_model_folder = f'models/{model_folder}'
+        local_model_folder = os.path.join(local_model_dir, model_folder)
+        print(f"Downloading model folder from S3: {s3_model_folder}")
+        download_folder_from_s3(bucket_name, s3_model_folder, local_model_folder)
+
+    s3_bllossom_path = "models/models--MLP-KTLim--llama-3-Korean-Bllossom-8B-gguf-Q4_K_M/llama-3-Korean-Bllossom-8B-Q4_K_M.gguf"
+    local_bllossom_path = os.path.join("/tmp/", s3_bllossom_path)
+
+    download_from_s3(s3_bllossom_path, local_bllossom_path)
     download_from_s3(s3_font_path, font_path)
     # 4. STT 파일 생성
     make_stt_txt(
