@@ -114,7 +114,7 @@ def lambda_handler(event, context):
         download_folder_from_s3(s3_model_folder, local_model_folder)
 
     s3_bllossom_path = "models/models--MLP-KTLim--llama-3-Korean-Bllossom-8B-gguf-Q4_K_M/llama-3-Korean-Bllossom-8B-Q4_K_M.gguf"
-    local_bllossom_path = os.path.join("/tmp/", s3_bllossom_path)
+    local_bllossom_path = os.path.join("/tmp", s3_bllossom_path)
 
     download_from_s3(s3_bllossom_path, local_bllossom_path)
     download_from_s3(s3_font_path, font_path)
