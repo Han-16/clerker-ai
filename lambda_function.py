@@ -126,8 +126,6 @@ def lambda_handler(event, context):
         input_domain,
         input_audio_file,
         output_txt_file,
-        local_keyword_boosting_domain,
-        local_keyword_boosting_agenda
     )
     print(f"STT 파일 생성 완료 : {output_txt_file}")
 
