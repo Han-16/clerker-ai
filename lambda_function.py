@@ -43,6 +43,10 @@ def download_folder_from_s3(s3_folder, local_dir):
 
 
 def lambda_handler(event, context):
+    os.environ['MPLCONFIGDIR'] = '/tmp/matplotlib'
+    os.environ['TRANSFORMERS_CACHE'] = '/tmp/huggingface'
+    os.environ['NUMBA_CACHE_DIR'] = '/tmp/numba_cache'
+
     os.makedirs('/tmp/STT', exist_ok=True)
     os.makedirs('/tmp/STT/stt_audio', exist_ok=True)
     os.makedirs('/tmp/STT/stt_text/KeywordBoosting', exist_ok=True)
@@ -53,6 +57,10 @@ def lambda_handler(event, context):
     os.makedirs('/tmp/models', exist_ok=True)
     os.makedirs('/tmp/models/models--MLP-KTLim--llama-3-Korean-Bllossom-8B-gguf-Q4_K_M', exist_ok=True)
     os.makedirs('/tmp/Keywords/NanumFontSetup_TTF_SQUARE_ROUND', exist_ok=True)
+
+    os.makedirs('/tmp/matplotlib', exist_ok=True)
+    os.makedirs('/tmp/huggingface', exist_ok=True)
+    os.makedirs('/tmp/numba_cache', exist_ok=True)
     print("current directory: ", os.getcwd())
     # Lambda 핸들러 함수
 
