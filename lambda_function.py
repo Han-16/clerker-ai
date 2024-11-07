@@ -51,6 +51,7 @@ def lambda_handler(event, context):
     os.makedirs('/tmp/Diagrams', exist_ok=True)
     os.makedirs('/tmp/Diagrams/mermaid', exist_ok=True)
     os.makedirs('/tmp/models', exist_ok=True)
+    os.makedirs('/tmp/models/models--MLP-KTLim--llama-3-Korean-Bllossom-8B-gguf-Q4_K_M', exist_ok=True)
     print("current directory: ", os.getcwd())
     # Lambda 핸들러 함수
 
@@ -115,6 +116,7 @@ def lambda_handler(event, context):
 
     s3_bllossom_path = "models/models--MLP-KTLim--llama-3-Korean-Bllossom-8B-gguf-Q4_K_M/llama-3-Korean-Bllossom-8B-Q4_K_M.gguf"
     local_bllossom_path = os.path.join("/tmp", s3_bllossom_path)
+    print("local_bllossom_path: ", local_bllossom_path)
 
     download_from_s3(s3_bllossom_path, local_bllossom_path)
     download_from_s3(s3_font_path, font_path)
