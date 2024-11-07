@@ -24,11 +24,21 @@ def upload_to_s3(local_path, s3_path):
     s3.upload_file(local_path, bucket_name, s3_path)
 
 def lambda_handler(event, context):
+    os.makedirs('/tmp/STT', exist_ok=True)
+    os.makedirs('/tmp/STT/stt_audio', exist_ok=True)
+    os.makedirs('/tmp/STT/stt_text/KeywordBoosting', exist_ok=True)
+    os.makedirs('/tmp/Chunking', exist_ok=True)
+    os.makedirs('/tmp/Keywords', exist_ok=True)
+    os.makedirs('/tmp/Diagrams', exist_ok=True)
+    os.makedirs('/tmp/Diagrams/mermaid', exist_ok=True)
+    os.makedirs('/tmp/models', exist_ok=True)
+    print("current directory: ", os.getcwd())
     # Lambda 핸들러 함수
 
     # 입력 이벤트에서 도메인과 mp3 파일 URL을 가져옵니다.
     input_domain = event.get('domain', 'IT')
-    mp3_file_url = event.get('mp3FileUrl')
+    mp3_file_url = event.get('mp3FileUrl', "input_audio.mp3")
+    print("mp3_file_url: ", mp3_file_url)
 
     # 파일 경로 설정
     input_audio_file = '/tmp/STT/stt_audio/input_audio.mp3'
