@@ -68,13 +68,15 @@ def lambda_handler(event, context):
     os.makedirs(local_model_dir, exist_ok=True)
     # 모델 파일 목록을 정의합니다.
     model_files = [
-        'models--jhgan--ko-sroberta-sts/snapshots/3efa8e54a06798b00bd1abb9c22b2dd530e22b24',
-        'models--MLP-KTLim--llama-3-Korean-Bllossom-8B-gguf-Q4_K_M/snapshots/4e602ad115392e7298674e092d6f8b45138f1db7',
+        'models--jhgan--ko-sroberta-sts/snapshots/3efa8e54a06798b00bd1abb9c22b2dd530e22b24/',
+        'models--MLP-KTLim--llama-3-Korean-Bllossom-8B-gguf-Q4_K_M/snapshots/4e602ad115392e7298674e092d6f8b45138f1db7/',
         'models--MLP-KTLim--llama-3-Korean-Bllossom-8B-gguf-Q4_K_M/llama-3-Korean-Bllossom-8B-Q4_K_M.gguf',
     ]
     for model_file in model_files:
+        print(f"Downloading model file: {model_file}")
         s3_model_path = f'models/{model_file}'
         local_model_path = os.path.join(local_model_dir, os.path.basename(model_file))
+        print(f"local_model_path: {local_model_path}")
         download_from_s3(s3_model_path, local_model_path)
     
     download_from_s3(s3_font_path, font_path)
