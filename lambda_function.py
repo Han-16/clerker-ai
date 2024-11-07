@@ -56,6 +56,8 @@ def lambda_handler(event, context):
     os.makedirs('/tmp/Diagrams/mermaid', exist_ok=True)
     os.makedirs('/tmp/models', exist_ok=True)
     os.makedirs('/tmp/models/models--MLP-KTLim--llama-3-Korean-Bllossom-8B-gguf-Q4_K_M', exist_ok=True)
+    os.makedirs('/tmp/models/models--jhgan--ko-sroberta-sts/snapshots/3efa8e54a06798b00bd1abb9c22b2dd530e22b24/', exist_ok=True)
+    os.makedirs('/tmp/models/models--MLP-KTLim--llama-3-Korean-Bllossom-8B-gguf-Q4_K_M/snapshots/4e602ad115392e7298674e092d6f8b45138f1db7/', exist_ok=True)
     os.makedirs('/tmp/Keywords/NanumFontSetup_TTF_SQUARE_ROUND', exist_ok=True)
 
     os.makedirs('/tmp/matplotlib', exist_ok=True)
