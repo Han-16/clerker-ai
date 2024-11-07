@@ -52,6 +52,7 @@ def lambda_handler(event, context):
     os.makedirs('/tmp/Diagrams/mermaid', exist_ok=True)
     os.makedirs('/tmp/models', exist_ok=True)
     os.makedirs('/tmp/models/models--MLP-KTLim--llama-3-Korean-Bllossom-8B-gguf-Q4_K_M', exist_ok=True)
+    os.makedirs('/tmp/Keywords/NanumFontSetup_TTF_SQUARE_ROUND', exist_ok=True)
     print("current directory: ", os.getcwd())
     # Lambda 핸들러 함수
 
