@@ -18,9 +18,9 @@ RUN /var/lang/bin/python3.10 -m pip install llama-cpp-python
 RUN /var/lang/bin/python3.10 -m pip install torch==2.1.0 --index-url https://download.pytorch.org/whl/cpu
 RUN git clone https://github.com/Han-16/clerker-ai.git
 RUN /var/lang/bin/python3.10 -m pip install -r clerker-ai/requirements.txt
-COPY Chunking /var/task/ && \
-    Diagrams /var/task/ && \
-    Keywords /var/task/ && \
-    STT /var/task/
+COPY Chunking/ /var/task/Chunking/
+COPY Diagrams/ /var/task/Diagrams/
+COPY Keywords/ /var/task/Keywords/
+COPY STT/ /var/task/STT/
 COPY lambda_function.py /var/task/
-CMD ["lambda_function.handler"]
+CMD ["lambda_function.lambda_handler"]
