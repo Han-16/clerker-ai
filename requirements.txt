@@ -12,6 +12,6 @@ langchain-huggingface==0.1.2
 langchain-text-splitters==0.3.2
 langchain-huggingface
 matplotlib
-transformers
+transformers==4.46.2
 wordcloud
 konlpy
