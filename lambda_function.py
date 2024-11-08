@@ -125,11 +125,11 @@ def lambda_handler(event, context):
         print(f"Downloading model folder from S3: {s3_model_folder}")
         download_folder_from_s3(s3_model_folder, local_model_folder)
 
-    s3_bllossom_path = "models/models--MLP-KTLim--llama-3-Korean-Bllossom-8B-gguf-Q4_K_M/llama-3-Korean-Bllossom-8B-Q4_K_M.gguf"
-    local_bllossom_path = os.path.join("/tmp", s3_bllossom_path)
-    print("local_bllossom_path: ", local_bllossom_path)
+    # s3_bllossom_path = "models/models--MLP-KTLim--llama-3-Korean-Bllossom-8B-gguf-Q4_K_M/llama-3-Korean-Bllossom-8B-Q4_K_M.gguf"
+    # local_bllossom_path = os.path.join("/tmp", s3_bllossom_path)
+    # print("local_bllossom_path: ", local_bllossom_path)
 
-    download_from_s3(s3_bllossom_path, local_bllossom_path)
+    # download_from_s3(s3_bllossom_path, local_bllossom_path)
     download_from_s3(s3_font_path, font_path)
     # 4. STT 파일 생성
     make_stt_txt(
